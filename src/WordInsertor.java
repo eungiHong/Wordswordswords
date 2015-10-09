@@ -70,7 +70,7 @@ public class WordInsertor {
 	private ArrayList<String> wordDictionary3 = new ArrayList<String>();
 
 	
-	// 블록에 대한 정보를 입력받아, 그리드와 그리드 상에 블록을 그리는 부문
+	// 그리드 그리기부: 그리드의 각 블록에 대한 정보를 담고 있는 리스트의 리스트를 입력 받아, 그리드를 그리는 부문
 	public WordInsertor(int gridLength, int[][] blockSet) { // 생성자
 		this.grid = new char[gridLength][gridLength];
 		this.gridLength = gridLength;
@@ -99,18 +99,18 @@ public class WordInsertor {
 			}
 		}
 	}
-	//블록에 대한 정보를 입력받아, 그리드와 그리드상에 블록을 그리는 부문 끝
+	// 그리드 그리기부 끝
 	
 	
-	// 그려진 블록에 대해서 낱말을 삽입하는 부문
+	// 낱말 삽입부: 그리드 그리기부에서 그려진 그리드에 대해서 낱말 사전으로부터 단어를 가져와 삽입하는 부문.
 	public void reload() { // 각 낱말리스트의 낱말을 셔플하고, 대응하는 길이의 낱말사전에 삽입하기
 		shuffle(wordSet9);
 		for (int j = 0; j < wordSet9.length; j++) {
-			wordDictionary9.add(wordSet7[j]);
+			wordDictionary9.add(wordSet9[j]);
 		}
 		shuffle(wordSet8);
 		for (int j = 0; j < wordSet8.length; j++) {
-			wordDictionary8.add(wordSet7[j]);
+			wordDictionary8.add(wordSet8[j]);
 		}
 		shuffle(wordSet7);
 		for (int j = 0; j < wordSet7.length; j++) {
@@ -150,23 +150,23 @@ public class WordInsertor {
 
 	public void fillInTheBlock() { // 블록에 낱말채우기
 		for (int i = 0; i < blockSet.length; i++) { // 모든 블록을 도는 반복문
-			int length = blockSet[i][2]; 
-			if (length == 9) {  // 블록의 길이에 맞는 낱말사전 선택
+			int row = blockSet[i][0]; // 블록의 x축 좌표
+			int col = blockSet[i][1]; // 블록의 y축 좌표
+			int length = blockSet[i][2]; // 블록의 길이에 맞는 낱말사전 선택
+			if (length == 9) {  // 블록의 길이가 9인 경우,
 				for (int j = 0; j < wordDictionary9.size(); j++) { // 낱말의 길이가 9인 낱말사전 돌기
 					String word = wordDictionary9.get(j);
-					int row = blockSet[i][0];
-					int col = blockSet[i][1];
 					if (blockSet[i][3] == 100) { // 블록이 수평일 경우, 수평방향으로 낱말을 입력
 						int count = 0;
 						for (int k = 0; k < word.length(); k++) {
-							// k번째 칸이 이미 차있는 칸이고, 그 문자가 낱말의 k번째 문자와 다를 경우
+							// k번째 칸이 이미 차있는 칸이고, 그 문자가 낱말의 k번째 문자와 다를 경우, 다른 낱말로 넘어감    
 							if (grid[row][col + k] != 'O' && grid[row][col + k] != word.charAt(k)) {
 								count++;
 							}
 						}
 						if (count == 0) { // 해당 블록이 비어있거나, 입력하려는 낱말와 일치할 경우
 							for (int z = 0; z < word.length(); z++) {
-								grid[row][col + z] = word.charAt(z);
+								grid[row][col + z] = word.charAt(z); // 낱말을 삽입
 							}
 							wordDictionary9.remove(j); // 블록에 삽입한 낱말을 사전에서 삭제
 							break;
@@ -193,8 +193,6 @@ public class WordInsertor {
 				// 위와 같은 패턴으로 길이가 3인 낱말사전까지 반복
 				for (int j = 0; j < wordDictionary8.size(); j++) {
 					String word = wordDictionary8.get(j);
-					int row = blockSet[i][0];
-					int col = blockSet[i][1];
 					if (blockSet[i][3] == 100) {
 						int count = 0;
 						for (int k = 0; k < word.length(); k++) {
@@ -229,8 +227,6 @@ public class WordInsertor {
 			} else if (length == 7) {
 				for (int j = 0; j < wordDictionary7.size(); j++) {
 					String word = wordDictionary7.get(j);
-					int row = blockSet[i][0];
-					int col = blockSet[i][1];
 					if (blockSet[i][3] == 100) {
 						int count = 0;
 						for (int k = 0; k < word.length(); k++) {
@@ -265,8 +261,6 @@ public class WordInsertor {
 			} else if (length == 6) {
 				for (int j = 0; j < wordDictionary6.size(); j++) {
 					String word = wordDictionary6.get(j);
-					int row = blockSet[i][0];
-					int col = blockSet[i][1];
 					if (blockSet[i][3] == 100) { 
 						int count = 0;
 						for (int k = 0; k < word.length(); k++) {
@@ -301,8 +295,6 @@ public class WordInsertor {
 			} else if (length == 5) {
 				for (int j = 0; j < wordDictionary5.size(); j++) {
 					String word = wordDictionary5.get(j);
-					int row = blockSet[i][0];
-					int col = blockSet[i][1];
 					if (blockSet[i][3] == 100) { 
 						int count = 0;
 						for (int k = 0; k < word.length(); k++) {
@@ -337,8 +329,6 @@ public class WordInsertor {
 			} else if (length == 4) {
 				for (int j = 0; j < wordDictionary4.size(); j++) {
 					String word = wordDictionary4.get(j);
-					int row = blockSet[i][0];
-					int col = blockSet[i][1];
 					if (blockSet[i][3] == 100) {
 						int count = 0;
 						for (int k = 0; k < word.length(); k++) {
@@ -373,8 +363,6 @@ public class WordInsertor {
 			} else if (length == 3) {
 				for (int j = 0; j < wordDictionary3.size(); j++) {
 					String word = wordDictionary3.get(j);
-					int row = blockSet[i][0];
-					int col = blockSet[i][1];
 					if (blockSet[i][3] == 100) {
 						int count = 0;
 						for (int k = 0; k < word.length(); k++) {
@@ -409,21 +397,21 @@ public class WordInsertor {
 			}
 		}
 	}
-	// 그려진 블록에 대해서 낱말을 삽입하는 부문 끝
+	// 낱말 삽입부
 
 	
-	// 낱말이 제대로 삽입되었는지 검사하는 부문
-	public void showPuzzle() { // 퍼즐 보여주기
+	// 크로스워드 검사부: 낱말 삽입부에 의해서 생성된 크로스워드가 정형의 크로스워드인지, 즉 낱말이 제대로 삽입되었는지 확인하는 부문.
+	public void showPuzzle() { // 크로스워드 보여주기
 		for (int i = 0; i < this.gridLength; i++) {
 			for (int j = 0; j < this.gridLength; j++) {
 				System.out.print(this.grid[i][j] + " ");
 			}
 			System.out.println("");
 		}
-		System.out.println(examiner());
+		System.out.println(puzzleExaminer());
 	}
 
-	private int examiner() { // 낱말로 채워지지 않은 빈 칸의 개수를 확인
+	public int puzzleExaminer() { // 낱말로 채워지지 않은 빈 칸의 개수를 확인
 		int count = 0;
 		for (int i = 0; i < this.gridLength; i++) {
 			for (int j = 0; j < this.gridLength; j++) {
@@ -433,16 +421,15 @@ public class WordInsertor {
 		}
 		return count;
 	}
-	// 낱말이 제대로 삽입되었는지 검사하는 부문 끝
-
+	// 크로스워드 검사부 끝
 	
-	public void doAtOnce() { // 한 번에 싹~ 만들기
+	public void drawAtOnce() { // 한 번에 싹~ 만들기
 		blockDrawer();
 		reload();
 		fillInTheBlock();
-		if (examiner() != 0) { // 채워지지 않은 빈칸이 있을 경우, 다시 처음부터 시작
-			doAtOnce();
-		} else if (examiner() == 0) {
+		if (puzzleExaminer() != 0) { // 채워지지 않은 빈칸이 있을 경우, 다시 처음부터 시작
+			drawAtOnce();
+		} else if (puzzleExaminer() == 0) {
 			showPuzzle();
 		}
 	}

@@ -15,7 +15,7 @@ public class GridGenerator {
 		}
 	}
 	
-	// 그리드를 그리는 부문
+	// 생성부: 그리드를 그리는 하위부문
 	
 	private void closeSquare (int x, int y) {  // 칸 닫기
 		this.grid[x][y] = 'X';
@@ -68,11 +68,31 @@ public class GridGenerator {
 	}
 	
 	public void makeAtOnce () {  // 다양한 메소드를 섞어서 한 번 그리드 만들기
-		for (int i = 0; i < this.gridLength / 2 + 1; i += 2) { // (1, 0), 즉 i = 0에서부터 닫아도 좋음
+		// 위에서 아랫방향으로 그리드의 중간선까지 한 칸씩 띄워서 (한 칸씩 띄워서 행을 닫는) recursiveRowCloser 적용 
+		for (int i = 0; i < this.gridLength / 2 + 1; i += 2) { // (1, 0), 즉 i = 1에서부터 닫아도 좋음
 			recursiveRowCloser(i, 0);
 		}
-		for (int i = 1; i < 9; i++) { // 그리드의 길이가 11일 경우 i < 9, 13일 경우 i < 14이 적당..
-			randomlyAndSymmetricallyClose();
+		// 한 번 패턴화된 그리드에 대해서 랜덤하게 칸 닫기
+		if (this.gridLength == 11) { 
+			for (int i = 1; i < 9; i++) { // 그리드의 길이가 11일 경우 i < 9, 13일 경우 i < 14가 적당..
+				randomlyAndSymmetricallyClose();
+			}
+		} else if (this.gridLength == 13) {
+			for (int i = 1; i  < 14; i++) {
+				randomlyAndSymmetricallyClose();
+			}
+		} else if (this.gridLength == 15) {
+			for (int i = 1; i < 21; i++) {
+				randomlyAndSymmetricallyClose();
+			}
+		} else if (this.gridLength == 17) {
+			for (int i = 1; i < 29; i++) {
+				randomlyAndSymmetricallyCloseForLargeSize();
+			}
+		} else if (this.gridLength == 19) {
+			for (int i = 1; i < 34; i++) {
+				randomlyAndSymmetricallyCloseForLargeSize();
+			}
 		}
 		if (wellFormednessExaminer() == false) { // 정형의 그리드가 아닐 경우, 다시 반복
 			openAtOnce();
@@ -87,9 +107,9 @@ public class GridGenerator {
 			}
 		}
 	}
-	// 그리드를 그리는 부문 끝
+	// 생성부 끝
 	
-	// 그려진 그리드에 안에 있는 블록에 대한 정보를 구하는 부문
+	// 블록 추출부 - 생성된 그리드가 가지고 있는 블록에 대한 정보를 리스트의 리스트의 형태로 추출하는 하위부문
 	private int rightwardSquareCounter(int x, int y) { // 입력된 좌표를 포함한 좌표의 오른쪽 행의 빈칸 개수 구하기
 		int count = 0;
 		if (y < this.gridLength) {
@@ -254,9 +274,9 @@ public class GridGenerator {
 		}
 	return everyBlock;
 	}
-	// 그려진 그리드에 안에 있는 블록에 대한 정보를 구하는 부문 끝
+	// 블록 추출부 끝
 	
-	// 그려진 그리드가 정형의 그리드인지, 또는 "쓸만한" 그리드인지 검사하는 부문
+	// 그리드 검사부: 생성된 그리드가 제약조건을 만족하는 정형(well-formed)의 그리드인지, 또는 "쓸만한" 그리드인지 검사하는 하위부문
 	public int closedSquareCounter() { // 닫혀 있는 칸의 개수 새기
 		int count = 0;
 		for (int i = 0; i < this.gridLength; i++) {
@@ -279,7 +299,7 @@ public class GridGenerator {
 		}
 		return count;
 	}
-	public boolean wellFormednessExaminer() {  // 그리드가 well-formed된 형태인지 검사하기
+	public boolean wellFormednessExaminer() {  // 그리드가 제약조건을 만족하는 정형의 그리드인지 검사하기
 		for (int i = 0; i < this.gridLength; i++) {
 			for (int j = 0; j < this.gridLength; j++) {
 				int[] temp = getInfoOfBlock(i, j);
@@ -288,7 +308,7 @@ public class GridGenerator {
 					int length = temp[2];
 					int type = temp[3];
 					if (xCoordinate == -1 && yCoordinate == -1 && length == -1 && type == -1) {
-						// 고립된 열린 칸, "O"이 존재하는 케이스
+						// 고립된 블록(가로 세로의 길이가 1인 블록)이 존재하는 케이스
 						return false;
 					}
 			}
@@ -303,5 +323,5 @@ public class GridGenerator {
 			System.out.println("");
 		}
 	}
-	// 그려진 그리드가 정형의 그리드인지, 또는 "쓸만한" 그리드인지 검사하는 부문 끝
+	// 그리드 검사부 끝
 }

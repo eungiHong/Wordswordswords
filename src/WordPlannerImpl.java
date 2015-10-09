@@ -27,6 +27,6 @@ public class WordPlannerImpl {
 				};
 		
 		WordInsertor wp = new WordInsertor(11, blockSet11x11);
-		wp.doAtOnce();
+		wp.drawAtOnce();
 	}
 }
