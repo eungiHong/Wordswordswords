@@ -397,7 +397,7 @@ public class WordInsertor {
 			}
 		}
 	}
-	// 낱말 삽입부
+	// 낱말 삽입부 끝
 
 	
 	// 크로스워드 검사부: 낱말 삽입부에 의해서 생성된 크로스워드가 정형의 크로스워드인지, 즉 낱말이 제대로 삽입되었는지 확인하는 부문.
@@ -408,10 +408,10 @@ public class WordInsertor {
 			}
 			System.out.println("");
 		}
-		System.out.println(puzzleExaminer());
+		System.out.println(puzzleValidator());
 	}
 
-	public int puzzleExaminer() { // 낱말로 채워지지 않은 빈 칸의 개수를 확인
+	public int puzzleValidator() { // 낱말로 채워지지 않은 빈 칸의 개수를 확인
 		int count = 0;
 		for (int i = 0; i < this.gridLength; i++) {
 			for (int j = 0; j < this.gridLength; j++) {
@@ -427,9 +427,9 @@ public class WordInsertor {
 		blockDrawer();
 		reload();
 		fillInTheBlock();
-		if (puzzleExaminer() != 0) { // 채워지지 않은 빈칸이 있을 경우, 다시 처음부터 시작
+		if (puzzleValidator() != 0) { // 채워지지 않은 빈 칸이 있을 경우, 다시 처음부터 시작
 			drawAtOnce();
-		} else if (puzzleExaminer() == 0) {
+		} else if (puzzleValidator() == 0) {
 			showPuzzle();
 		}
 	}

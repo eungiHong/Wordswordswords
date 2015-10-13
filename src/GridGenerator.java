@@ -94,7 +94,7 @@ public class GridGenerator {
 				randomlyAndSymmetricallyCloseForLargeSize();
 			}
 		}
-		if (wellFormednessExaminer() == false) { // 정형의 그리드가 아닐 경우, 다시 반복
+		if (wellFormednessValidator() == false) { // 정형의 그리드가 아닐 경우, 다시 반복
 			openAtOnce();
 			makeAtOnce();
 		}
@@ -299,7 +299,7 @@ public class GridGenerator {
 		}
 		return count;
 	}
-	public boolean wellFormednessExaminer() {  // 그리드가 제약조건을 만족하는 정형의 그리드인지 검사하기
+	public boolean wellFormednessValidator() {  // 그리드가 제약조건을 만족하는 정형의 그리드인지 검사하기
 		for (int i = 0; i < this.gridLength; i++) {
 			for (int j = 0; j < this.gridLength; j++) {
 				int[] temp = getInfoOfBlock(i, j);
